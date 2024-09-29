@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Avionio - Départs ORY</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Départs de l'aéroport d'Orly (ORY)</h1>
+    
+    <div class="avionio-widget">
+        <iframe id="avionio-frame" height="650px" frameborder="0" scrolling="no" 
+            style='border:0; width: 100%; margin:0; padding:0; min-height: 500px' 
+            src='https://www.avionio.com/widget/fr/ory/departures?style=2'>
+        </iframe>
+        <div style="font-size:12px; width: 100%; text-align: center; ">
+            <a style="text-decoration:none; color:#333;" href='https://www.avionio.com/fr/airport/ory/departures' 
+                title='ORY Départs' target="_blank">ORY Départs</a>
+            <span style="color: #FD6150;">♥</span>
+            <a style="text-decoration:none; color:#333;" href="https://www.avionio.com/" target="_blank" 
+                title="Arrivées et départs d'aéroports dans le monde entier">Avionio.com</a>
+        </div>
+        <script>
+            window.addEventListener("message", function(e) {
+                if (typeof e.data === 'string') {
+                    if (e.data.indexOf('avionioHeight:') > -1) {
+                        document.getElementById('avionio-frame').height = parseInt(e.data.split('avionioHeight:')[1]) + 30 + 'px';
+                    } else if (e.data.indexOf('avionioHeightScroll:') > -1) {
+                        const se = document.documentElement || document.body, sp = se.scrollTop - (se.scrollHeight - se.clientHeight);
+                        document.getElementById('avionio-frame').height = parseInt(e.data.split('avionioHeightScroll:')[1]) + 30 + 'px';
+                        se.scrollTop = sp + se.scrollHeight - se.clientHeight;
+                    }
+                }
+            },false);
+        </script>
+    </div>
+</body>
+</html>
